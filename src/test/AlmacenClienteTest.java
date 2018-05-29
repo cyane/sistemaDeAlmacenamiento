@@ -9,24 +9,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import almacen.AlmacenCliente;
+import almacen.AlmacenIndice;
 import modelo.Cliente;
 
-public class AlmacenClienteTest {
+public class AlmacenClienteTest<K> {
 	ArrayList<Cliente> clientes = new ArrayList<>();
-	AlmacenCliente<Cliente,Object> inst;
 	
 	@Before
 	public void setUp() {
-		inst = new AlmacenCliente<>();
-		Cliente cliente1 = new Cliente(0, "pablo","dni1");
+		Cliente cliente1 = new Cliente( "dni1","uno" ,"asd","123");
 		clientes.add(cliente1);
-		Cliente cliente2 = new Cliente(1, "pabloDos","dni2");
+		Cliente cliente2 =  new Cliente( "dni2","dos" ,"asd","123");
 		clientes.add(cliente2);
-		Cliente cliente3 = new Cliente(2, "pabloTres","dni3");
+		Cliente cliente3 =  new Cliente( "dni3","tres" ,"asd","123");
 		clientes.add(cliente3);
-		Cliente cliente4 = new Cliente(3, "pabloCuatro","dni4");
+		Cliente cliente4 =  new Cliente( "dni4","cuatro" ,"asd","123");
 		clientes.add(cliente4);
-		Cliente cliente5 = new Cliente(4, "pabloDos","dni5");
+		Cliente cliente5 =  new Cliente( "dni5","dos" ,"asd","123");
 		clientes.add(cliente5);
 	}
 
@@ -44,15 +43,17 @@ public class AlmacenClienteTest {
 	@Test
 	public void testGrabar() {
 		for (Cliente cliente : clientes) {
-			inst.grabar(cliente, cliente.getNumero());
+			new AlmacenIndice<>( "./data/clientes/").grabar(cliente, cliente.getDniCif());
 		}
+		// se pueden sobreescribir archivos
+		assertFalse(new AlmacenIndice<>( "./data/clientes/").grabar(new Cliente("dni3", "tres", "asd","123"), "dni3"));
 	}
 
 	@Test
-	public void testObtener() {
+	public void testleer() {
 		testGrabar();
 		for (Cliente cliente : clientes) {
-			assertTrue(cliente.equals(inst.obtener(cliente.getNumero())));
+			assertTrue(cliente.equals(new AlmacenIndice<>( "./data/clientes/").leer((K)cliente.getDniCif())));
 		}
 	}
 

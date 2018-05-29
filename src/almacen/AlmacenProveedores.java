@@ -10,12 +10,12 @@ import utiles.Utiles;
 
 public class AlmacenProveedores{
 
-	private ArrayList<Proveedor> lista; //esto tendria que ser un set, pero no tira (?)
+	private TreeSet <Proveedor> lista; //esto tendria que ser un set, pero no tira (?)
 	private StringBuilder pathComun = new StringBuilder("./data/proveedores");
 	
 	public AlmacenProveedores() {
 		super();
-		this.lista=new ArrayList<>();
+		this.lista=new TreeSet<>();
 		if (!Utiles.comprobarExiste(pathComun.toString())) {
 			File file = new File(pathComun.toString());
 			file.mkdirs();
@@ -30,10 +30,10 @@ public class AlmacenProveedores{
 		return retorno;
 	}
 	
-	public ArrayList<Proveedor> obtener(){
-		ArrayList<Proveedor> retorno=null;
+	public TreeSet<Proveedor> obtener(){
+		TreeSet<Proveedor> retorno=null;
 		if (Utiles.comprobarExiste(pathComun.toString())) {
-			retorno = (ArrayList<Proveedor>) new DAO().leer(pathComun.toString());
+			retorno = (TreeSet<Proveedor>) new DAO().leer(pathComun.toString());
 		}
 		return retorno;
 	}

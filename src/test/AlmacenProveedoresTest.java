@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.TreeSet;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +22,9 @@ public class AlmacenProveedoresTest {
 	public void setUp() throws Exception {
 		inst = new AlmacenProveedores();
 		proveedores=new ArrayList<Proveedor>();
-		Proveedor proveedorUno = new Proveedor(1, "proveedorUno");
+		Proveedor proveedorUno = new Proveedor( "proveedorUno");
 		proveedores.add(proveedorUno);
-		Proveedor proveedorDos = new Proveedor(2, "proveedorDos");
+		Proveedor proveedorDos = new Proveedor( "proveedorDos");
 		proveedores.add(proveedorDos);
 		
 	}
@@ -45,12 +47,12 @@ public class AlmacenProveedoresTest {
 	@Test
 	public void testObtener() {
 		testGrabar();
-		ArrayList<Proveedor> test = new ArrayList<>();
-		Proveedor proveedorUno = new Proveedor(1, "proveedorUno");
+		TreeSet<Proveedor> test = new TreeSet<>();
+		Proveedor proveedorUno = new Proveedor("proveedorUno");
 		test.add(proveedorUno);
-		Proveedor proveedorDos = new Proveedor(2, "proveedorDos");
+		Proveedor proveedorDos = new Proveedor("proveedorDos");
 		test.add(proveedorDos);
-		ArrayList<Proveedor> obtener = inst.obtener();
+		TreeSet<Proveedor> obtener = inst.obtener();
 		assertEquals(obtener, test);
 	}
 

@@ -1,61 +1,63 @@
 package modelo;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
-import utiles.Utiles;
+public class Pedido implements Serializable {
 
-public class Pedido implements Serializable{
 	private int numero;
-	private String item;
+	private Cliente cliente;
+	private LocalDate fecha;
+	ArrayList<Linea> lineas;
 
-	public Pedido( String nombre) {
+	public Pedido(int numero, Cliente cliente) {
 		super();
-		this.item = nombre;
-		ponerNumero();
+		this.numero = numero;
+		this.cliente = cliente;
+		this.fecha = LocalDate.now();
+		lineas = new ArrayList<>();
 	}
 
-	private void ponerNumero() {
-		Integer num = 0;
-		String path = "./data/numeroUltimoPedido.data";
-		if(Utiles.comprobarExiste(path)){
-			num = (Integer) new DAO<>().leer(path);			
-		}
-		this.numero=num;
-		num++;
-		new DAO<>().grabar(path, num);
+	public boolean insertarLinea(Linea linea) {
+		assert linea != null;
+		return lineas.add(linea);
+	}
+
+	public Linea getLinea(int numero){
+		assert numero>0&&numero<=lineas.size();
+		return lineas.get(numero-1);
+	}
+
+	public Linea getLast(){
+		return getLinea(lineas.size());
+	}
+	public void setCliente(Cliente cliente2) {
+		this.cliente=cliente2;
 	}
 
 	public int getNumero() {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
-		this.numero = numero;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public String getNombre() {
-		return item;
+	public LocalDate getFecha() {
+		return fecha;
 	}
 
-	public void setNombre(String nombre) {
-		this.item = nombre;
-
+	public ArrayList<Linea> getLineas() {
+		return lineas;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
-		boolean retorno = super.equals(obj);
-		if (!retorno) {
-			Pedido pedido = (Pedido) obj;
-			retorno = this.numero == pedido.numero;
+		Pedido elemento=(Pedido)obj;
+		boolean retorno=super.equals(elemento);
+		if(!retorno){
+			retorno=this.numero==elemento.getNumero();
 		}
 		return retorno;
 	}
-
-
 }

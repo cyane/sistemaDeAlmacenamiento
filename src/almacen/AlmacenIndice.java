@@ -1,22 +1,21 @@
 package almacen;
 
 import java.io.File;
-import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import modelo.DAO;
 import utiles.Utiles;
 
-public class AlmacenCliente<T, K> {
+public class AlmacenIndice<T, K> {
 
 	private StringBuilder pathDatos;
 	private String pathIndice;
 	private TreeMap<K, Integer> indice;
 
-	public AlmacenCliente(String path) {
+	public AlmacenIndice(String path) {
 		super();
-		this.pathDatos=new StringBuilder(path); //   "./data/clientes/"
-	
+		this.pathDatos = new StringBuilder(path);
 		File file = new File(pathDatos.toString());
 		if (!file.exists()) {
 			file.mkdirs();
@@ -24,7 +23,7 @@ public class AlmacenCliente<T, K> {
 		this.pathIndice = pathDatos + "indice.data";
 		if (Utiles.comprobarExiste(pathIndice)) {
 			this.indice = (TreeMap<K, Integer>) new DAO().leer(pathIndice);
-		}else{
+		} else {
 			this.indice = new TreeMap<>();
 		}
 	}
@@ -33,40 +32,22 @@ public class AlmacenCliente<T, K> {
 		this.pathDatos.append("clientes.data");
 		assert k != null && t != null;
 		boolean retorno = false;
-		// miro el ultimo indice. siempre hay un mapa aqui
 		Entry<K, Integer> lastEntry = indice.lastEntry();
 		Integer value = 0;
-		// si es el primer elemento lastentry sera null
 		if (lastEntry != null) {
 			value = lastEntry.getValue() + 1;
 		}
 		if (indice.put(k, value) == null) {
-			System.out.println("es null");
 			if (new DAO<>().grabar(pathDatos.toString(), t, true)) {
 				retorno = true;
 				new DAO<>().grabar(pathIndice, indice);
-			}else{
-				//Si no se graba bien actualizamos el indice con la version grabada
+			} else {
 				new DAO<>().grabar(pathIndice, indice);
 			}
 			System.out.println(indice);
 		}
 		return retorno;
 	}
-//		boolean retorno = false;
-//		if (k != null) {
-//			boolean grabar = new DAO<>().grabar(pathDatos.toString(), t, true);
-//			if (grabar) {
-//				try {
-//					indice.put(k, indice.lastEntry().getValue() + 1);
-//				} catch (NullPointerException e) {
-//					indice.put(k, 0);
-//				}
-//				retorno = new DAO<>().grabar(pathIndice.toString(), indice);
-//			}
-//		}
-//		return retorno;
-//	}
 
 	public T leer(K k) {
 		this.pathDatos.append("clientes.data");
@@ -78,5 +59,32 @@ public class AlmacenCliente<T, K> {
 		}
 		return retorno;
 	}
-	
+
+	public boolean grabar(T t, Integer numero, String nombre) {
+		boolean retorno = false;
+		this.pathDatos.append(numero + ".art");
+		boolean grabar = new DAO<>().grabar(pathDatos.toString(), t);
+		if (Utiles.comprobarExiste(pathIndice)) {// si el indice existe se tendria que pillar
+			indice = (TreeMap<K, Integer>) new DAO().leer(pathIndice);
+		}
+		if (grabar) {
+			indice.put((K) nombre, numero);
+			retorno = new DAO<>().grabar(pathIndice, this.indice);
+
+		}
+		return retorno;
+	}
+
+	public T leer(String nombre) {
+		T retorno = null;
+		if (Utiles.comprobarExiste(pathIndice)) {
+			indice = (TreeMap<K, Integer>) new DAO().leer(pathIndice);
+			Integer nombreArch = indice.get(nombre);
+			if (nombreArch != null) {
+				pathDatos.append(nombreArch + ".art");
+				retorno = (T) new DAO<>().leer(pathDatos.toString());
+			}
+		}
+		return retorno;
+	}
 }

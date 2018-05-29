@@ -14,7 +14,7 @@ import modelo.DAO;
 
 public class AlmacenableTest2Jose {
 	DAO<Cliente> instancia;
-	Cliente cliente = new Cliente(1, "1","dni2");
+	Cliente cliente = new Cliente( "dni1","uno" ,"asd","123");
 	private static final String VARIOS_DATA = "varios.data";
 	private static final String UNICO_DATA = "unico.data";
 
@@ -42,12 +42,12 @@ public class AlmacenableTest2Jose {
 	@Test
 	public void testLeerObjetoPosicional() {
 		instancia.grabar(VARIOS_DATA, cliente);
-		Cliente dos=new Cliente(2, "fernando","dni2");
+		Cliente dos = new Cliente( "dos","dos" ,"asd","123");
 		instancia.grabar(VARIOS_DATA, dos);
 		assertEquals(dos, instancia.leer(VARIOS_DATA, 1));
 		instancia.grabar(VARIOS_DATA, dos);
 		instancia.grabar(VARIOS_DATA, dos);
-		Cliente tres=new Cliente(3, "adrian","dni3");
+		Cliente tres = new Cliente( "res","tres" ,"asd","123");
 		instancia.grabar(VARIOS_DATA, tres);
 		assertEquals(tres, instancia.leer(VARIOS_DATA, 4));
 	}
@@ -60,7 +60,7 @@ public class AlmacenableTest2Jose {
 	@Test
 	public void testGrabarObjetoPosicionalAlFinal() {
 		instancia.grabar(VARIOS_DATA, cliente);
-		Cliente dos=new Cliente(2, "fernando","dni4");
+		Cliente dos = new Cliente( "cuatro","uno" ,"asd","123");
 		assertTrue(instancia.grabar(VARIOS_DATA, dos));
 		
 	}

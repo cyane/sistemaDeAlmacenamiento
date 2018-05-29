@@ -19,15 +19,15 @@ public class AlmacenPedidoTest {
 	@Before
 	public void setUp() throws Exception {
 		inst = new AlmacenPedido();
-		 clienteUno = new Cliente(1, "uno", "asd1");
-		 clienteDos = new Cliente(2, "dos", "asd2");
-		 clienteTres = new Cliente(3, "tres", "asd3");
-		 pedidoUno = new Pedido( "pUno");
-		 pedidoDos = new Pedido( "pDos");
-		 pedidoTres = new Pedido( "pTres");
-		 pedidoCuatro = new Pedido( "pCuatro");
-		 pedidoCinco = new Pedido( "pCinco");
-		 pedidoSeis = new Pedido( "pSeis");
+		Cliente clienteUno = new Cliente( "dni1","uno" ,"asd","123");
+		Cliente clienteDos = new Cliente( "dni2","uno" ,"asd","123");
+		Cliente clienteTres = new Cliente( "dni3","uno" ,"asd","123");
+		 pedidoUno = new Pedido(1, clienteUno);
+		 pedidoDos = new Pedido(2, clienteDos);
+		 pedidoTres = new Pedido(3, clienteUno);
+		 pedidoCuatro = new Pedido(4, clienteDos);
+		 pedidoCinco = new Pedido(5, clienteTres);
+		 pedidoSeis = new Pedido(6, clienteUno);
 
 	}
 
@@ -47,25 +47,26 @@ public class AlmacenPedidoTest {
 
 	@Test
 	public void testGrabar() {
-
-
-		inst.grabar(clienteUno.getID(), pedidoUno);
-		inst.grabar(clienteDos.getID(), pedidoDos);
-		inst.grabar(clienteUno.getID(), pedidoTres);
-		inst.grabar(clienteTres.getID(), pedidoCuatro);
-		inst.grabar(clienteUno.getID(), pedidoCinco);
-		inst.grabar(clienteDos.getID(), pedidoSeis);
+		assertTrue(inst.grabar(pedidoUno.getCliente().getDniCif(), pedidoUno));
+		assertTrue(inst.grabar(pedidoDos.getCliente().getDniCif(), pedidoDos));
+		assertTrue(inst.grabar(pedidoTres.getCliente().getDniCif(), pedidoTres));
+		assertTrue(inst.grabar(pedidoCuatro.getCliente().getDniCif(), pedidoCuatro));
+		assertTrue(inst.grabar(pedidoCinco.getCliente().getDniCif(), pedidoCinco));
+		assertTrue(inst.grabar(pedidoSeis.getCliente().getDniCif(), pedidoSeis));
 	}
 
 	@Test
 	public void testLeer() {
 		testGrabar();
-		assertEquals(pedidoUno, inst.leer(clienteUno.getID(), pedidoUno.getNumero()));
-		assertEquals(pedidoDos, inst.leer(clienteDos.getID(), pedidoDos.getNumero()));
-		assertEquals(pedidoTres, inst.leer(clienteUno.getID(), pedidoTres.getNumero()));
-		assertEquals(pedidoCuatro, inst.leer(clienteTres.getID(), pedidoCuatro.getNumero()));
-		assertEquals(pedidoCinco, inst.leer(clienteUno.getID(), pedidoCinco.getNumero()));
-		assertEquals(pedidoSeis, inst.leer(clienteDos.getID(), pedidoSeis.getNumero()));
+		Pedido pedido = inst.leer(pedidoUno.getCliente().getDniCif(), pedidoUno.getNumero());
+		System.out.println(pedidoUno.getCliente()+" "+pedidoUno.getNumero()+" "+pedidoUno.getFecha());
+		System.out.println(pedido.getCliente()+" "+pedido.getNumero()+" "+pedido.getFecha());
+		assertEquals(pedidoUno, inst.leer(pedidoUno.getCliente().getDniCif(), pedidoUno.getNumero()));
+		assertEquals(pedidoDos, inst.leer(pedidoDos.getCliente().getDniCif(), pedidoDos.getNumero()));
+		assertEquals(pedidoTres, inst.leer(pedidoTres.getCliente().getDniCif(), pedidoTres.getNumero()));
+		assertEquals(pedidoCuatro, inst.leer(pedidoCuatro.getCliente().getDniCif(), pedidoCuatro.getNumero()));
+		assertEquals(pedidoCinco, inst.leer(pedidoCinco.getCliente().getDniCif(), pedidoCinco.getNumero()));
+		assertEquals(pedidoSeis, inst.leer(pedidoSeis.getCliente().getDniCif(), pedidoSeis.getNumero()));
 	}
 
 }

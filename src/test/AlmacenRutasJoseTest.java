@@ -18,26 +18,26 @@ public class AlmacenRutasJoseTest {
 	public void setUp() {
 		instancia=new AlmacenRutasJose<>("Elementos");
 
-		Cliente cliente1 = new Cliente(1, "pablo","dni1");
+		Cliente cliente1 = new Cliente( "dni1","uno" ,"asd","123");
 		clientes.add(cliente1);
-		Cliente cliente2 = new Cliente(2, "pabloDos","dni2");
+		Cliente cliente2 = new Cliente( "dni2","uno" ,"asd","123");
 		clientes.add(cliente2);
-		Cliente cliente3 = new Cliente(3, "pabloTres","dni3");
+		Cliente cliente3 = new Cliente( "dni3","uno" ,"asd","123");
 		clientes.add(cliente3);
-		Cliente cliente4 = new Cliente(4, "pabloCuatro","dni4");
+		Cliente cliente4 = new Cliente( "dni4","uno" ,"asd","123");
 		clientes.add(cliente4);
-		Cliente cliente5 = new Cliente(1, "pabloDos","dni5");
+		Cliente cliente5 = new Cliente( "dni5","uno" ,"asd","123");
 		clientes.add(cliente5);
 	}
 
 	@After
 	public void tearDown() {
 		for (Cliente cliente : clientes) {
-			File archivo = new File("./data/Elementos/"+cliente.getNombre()+"/"+cliente.getNumero()+".data");
+			File archivo = new File("./data/Elementos/"+cliente.getRazonSocial()+"/"+cliente.getDniCif()+".data");
 			archivo.delete();
 		}
 		for (Cliente cliente : clientes) {
-			File directorio = new File("./data/Elementos/"+cliente.getNombre());
+			File directorio = new File("./data/Elementos/"+cliente.getRazonSocial());
 			directorio.delete();
 			
 		}
@@ -47,7 +47,7 @@ public class AlmacenRutasJoseTest {
 	public void testObtener() {
 		testGrabar();
 		for (Cliente cliente : clientes) {
-			Cliente obtenido = instancia.obtener(String.valueOf(cliente.getNumero()), cliente.getNombre());
+			Cliente obtenido = instancia.obtener(cliente.getRazonSocial(), cliente.getDniCif());
 			assertTrue(cliente.equals(obtenido));
 		}
 	}
@@ -56,13 +56,13 @@ public class AlmacenRutasJoseTest {
 	public void testGrabar() {
 		int i=0;
 		for (Cliente cliente : clientes) {
-			instancia.grabar(cliente, String.valueOf(cliente.getNumero()),cliente.getNombre());
+			instancia.grabar(cliente, String.valueOf(cliente.getDniCif()),cliente.getRazonSocial());
 			i++;
-			File archivo = new File("./data/Elementos/"+cliente.getNombre()+"/"+cliente.getNumero()+".data");
+			File archivo = new File("./data/Elementos/"+cliente.getRazonSocial()+"/"+cliente.getDniCif()+".data");
 			assertTrue(archivo.exists());
 		}
-		Cliente cliente6 = new Cliente(3, "pabloTres","dni2"); //mismo nombre archivo, no sobreescribe
-		assertFalse(instancia.grabar(cliente6, String.valueOf(cliente6.getNumero()),cliente6.getNombre()));
+		Cliente cliente6 = new Cliente( "dni1","uno" ,"asd","123");; //mismo nombre archivo, no sobreescribe
+		assertFalse(instancia.grabar(cliente6, String.valueOf(cliente6.getDniCif()),cliente6.getRazonSocial()));
 	}
 
 }

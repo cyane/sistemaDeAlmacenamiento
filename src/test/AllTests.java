@@ -5,8 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AlmacenableTest2Jose.class,AlmacenClienteTest.class,AlmacenProveedoresTest.class,
-	AlmacenRutasJoseTest.class,AlmacenPedidoTest.class,AlmacenArticuloTest.class })
+@SuiteClasses({ AlmacenClienteTest.class,AlmacenProveedoresTest.class,
+	AlmacenPedidoTest.class,AlmacenArticuloTest.class })
 public class AllTests {
 
 }
